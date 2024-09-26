@@ -5,38 +5,86 @@ import numpy as np
 import matplotlib.lines as mlines  # Import Line2D to create custom legend handles
 import os 
 
-##############################################################################################
+######################################################################################################################################################
 
-#fill in config here
+RELATIVE = True #set calculation mode to relative
 
-# Weapon configurations: (Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions)
-#Unit1_config = (3, 3 * 3.5, 4, 4, 1, 1, "2 Hits", 0)       # Ratling Gun
-#Unit2_config = (3, 2, 4, 3, 2, 2, "Auto Wound", 1)         # Warlock Jezzails
+#fill in config here for Unit 1
 
-# Define the names for the weapons
-#Unit1_name = "RatlingGun"
-#Unit2_name = "WarlockJezzails"
-RELATIVE = True
-
-# Weapon configurations: (Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, relative, Points, Squads, Lastwpn, additionalWeapons)
-Unit1_config = (3, 3 * 3.5, 4, 4, 1, 1, "2 Hits", 0, None, RELATIVE, 150, 1, True, None)       # RatlingGun
-Unit2_config = (3, 2 * 3.5, 2, 4, 2, 1, "None", 0, None, RELATIVE, 250, 1, True, None)          # WarpfireThrowers250
-
-# Define the names for the weapons
 Unit1_name = "RatlingGunPer100"
+
+Unit1_Units = 3                 #Number of models in unit 1 with that weapon profile
+
+Unit1_Attacks = 3 * 3.5         #Number of Attacks
+
+Unit1_Hit = 4                   #Hit Value
+
+Unit1_Wound = 4                 #Wound Value
+
+Unit1_Rend = 1                  #Rend Value
+
+Unit1_Damage = 1                #Damage Value
+
+Unit1_Crit = "2 Hits"           #Name of Crit Ability - Currently implemented: "2 Hits", "Auto Wound", "Mortal", "None"
+
+Unit1_Champions = 0             #Number of Champions in that Unit
+
+Unit1_Ability = None            #Ability - Not implemented yet
+
+Unit1_Points = 150              #Points cost of 1 unit
+
+Unit1_Squads = 1                #Number of Squads you want to compute for 
+
+Unit1_Lastwpn = True            #Set this to True if this is the last weapon for this Unit you want to compute
+
+Unit1_additionalWeapons = None  #Here a List of Arrays can be passed that should be calculated as weapons beyond the first 
+                                #for the same unit like: [(...),(...)] for multi weapon calculation set the Lastwpn parameter False
+                                #on all but the last weapon which is the last element in the list
+
+########################################################################################################################################################################
+
+#fill in config here for Unit 2
+
 Unit2_name = "WarpfireThrowers250Per100"
 
-"""
+Unit2_Units = 3                 #Number of models in unit 1 with that weapon profile
+
+Unit2_Attacks = 3 * 3.5         #Number of Attacks
+
+Unit2_Hit = 4                   #Hit Value
+
+Unit2_Wound = 4                 #Wound Value
+
+Unit2_Rend = 1                  #Rend Value
+
+Unit2_Damage = 1                #Damage Value
+
+Unit2_Crit = "2 Hits"           #Name of Crit Ability - Currently implemented: "2 Hits", "Auto Wound", "Mortal", "None"
+
+Unit2_Champions = 0             #Number of Champions in that Unit
+
+Unit2_Ability = None            #Ability - Not implemented yet
+
+Unit2_Points = 150              #Points cost of 1 unit
+
+Unit2_Squads = 1                #Number of Squads you want to compute for 
+
+Unit2_Lastwpn = True            #Set this to True if this is the last weapon for this Unit you want to compute
+
+Unit2_additionalWeapons = None  #Here a List of Arrays can be passed that should be calculated as weapons beyond the first 
+                                #for the same unit like: [(...),(...)] for multi weapon calculation set the Lastwpn parameter False
+                                #on all but the last weapon which is the last element in the list
+
+########################################################################################################################################################################
+
+
 # Weapon configurations: (Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, relative, Points, Squads, Lastwpn, additionalWeapons)
-Unit1_config = (1 ,2 , 4, 2, 3, 5, "None", 0, None, RELATIVE, 170, 1, False, [(1 ,3.5, 4, 5, 0, 1, "None", 0, None, RELATIVE, 170, 1, True, None)])       # WarpGrinder
-Unit2_config = (3, 5, 4, 3, 1, 2, "None", 0, None, RELATIVE, 160, 1, False, [(1 ,2 * 3.5, 2, 4, 2, 1, "None", 0, None, RELATIVE, 160, 1, True, None)])         # RatOgors
-
-# Define the names for the weapons
-Unit1_name = "WarpGrinderPer100"
-Unit2_name = "RatOgorsPer100"
-"""
-
-###############################################################################################
+Unit1_config = (Unit1_Units, Unit1_Attacks, Unit1_Hit, Unit1_Wound, Unit1_Rend,
+                Unit1_Damage, Unit1_Crit, Unit1_Champions, Unit1_Ability, RELATIVE,
+                Unit1_Points, Unit1_Squads, Unit1_Lastwpn, Unit1_additionalWeapons)   
+Unit2_config = (Unit2_Units, Unit2_Attacks, Unit2_Hit, Unit2_Wound, Unit2_Rend, Unit2_Damage,
+                Unit2_Crit, Unit2_Champions, Unit2_Ability, RELATIVE, Unit2_Points, Unit2_Squads,
+                Unit2_Lastwpn, Unit2_additionalWeapons)       
 
 # Directory 
 directory = f"{Unit1_name}_Vs_{Unit2_name}"
@@ -48,8 +96,6 @@ parent_dir = "/Users/michaeldoleschal/p4p/privat/WarhammerAOS/Plots"
 path = os.path.join(parent_dir, directory) 
   
 # Create the directory 
-# 'GeeksForGeeks' in 
-# '/home / User / Documents' 
 os.mkdir(path) 
 
 # Generalized function that computes result based on Save, Ward, and weapon parameters

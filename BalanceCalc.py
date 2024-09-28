@@ -8,12 +8,12 @@ import pandas as pd
 
 RELATIVE = True #set calculation mode to relative
 
-df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitData2.csv",sep = ';')  
+df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitDataMelee.csv",sep = ';')  
 
 # Generalized function that computes result based on Save, Ward, and weapon parameters
 def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads, Lastwpn, additionalWeapons, Save, Ward):
     w = Squads * (Units * Attack + Champions)
-    if Crit != "None":
+    if Crit != "NoCrit":
         x = w * np.abs(Hit - 6) / 6
         if Crit == "Auto Wound":
             y = x * (np.abs(Wound - 6) + 1) / 6 + Attack / 6
@@ -32,9 +32,22 @@ def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champi
     a = np.where(Ward == 7, z, z * (6 - (np.abs(Ward - 6) + 1)) / 6)
     b = a * Damage
 
-    if additionalWeapons==True:
-        for i in range(len(additionalWeapons)):
-            b += calc_with_config(additionalWeapons[i], Save, Ward)
+    if Ability == "DoomFlayer":
+        b += 1 # 1/3 * 1 damage + 1/3 * 2 Damage 
+
+    if additionalWeapons != "NoWpn":
+        additionalWeapons = additionalWeapons.replace("[","")
+        additionalWeapons = additionalWeapons.replace("]","")
+        li = list(additionalWeapons.split(";"))
+        for j in range(len(li)):
+            list_weapon = li[j].split(",")
+            for k in range(len(list_weapon)):
+                try:
+                    list_weapon[k] = float(list_weapon[k])
+                except:
+                    pass
+            #df_temp = pd.DataFrame(list_weapon,columns=['Name', 'Units', 'Attack','Hit','Wound','Rend','Damage','Crit','Champions','Ability','Points','Squads','Lastwpn','additionalWeapons'])
+            b += calc_with_config_single(list_weapon, Save, Ward)
 
     if Lastwpn:
         if RELATIVE:
@@ -52,6 +65,10 @@ def calc_with_config(df, Save, Ward):
         newrow = calc_distribution(*array[i+1][:], Save, Ward)
         retArray = np.vstack([retArray, newrow]) 
     return retArray
+
+def calc_with_config_single(arglist, Save, Ward):
+    firstrow = calc_distribution(*arglist, Save, Ward) 
+    return firstrow
 
 
 # Weapon configurations: (Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, relative, Points, Squads, Lastwpn, additionalWeapons)
@@ -80,10 +97,10 @@ parent_dir = "/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency
 # Path 
 path = os.path.join(parent_dir, directory) 
   
-try:
-    os.mkdir(path)
-except OSError as error:
-    print(error)   
+#try:
+    #os.mkdir(path)
+#except OSError as error:
+    #print(error)   
 
 ######################################################################################################################################################
 
@@ -168,7 +185,7 @@ ax.annotate(f"{df.loc[0]['Name']} Equal efficiency Line",
 ax.set_xlabel('Save')
 ax.set_ylabel('Relative Factor of efficiency')
 ax.set_title('Efficiency Factor vs Save')
-ax.set_yticks(np.arange(Relative_diff_array[0,0]*0.9, Relative_diff_array[-1,-1]*1.1, 0.1), minor=True)
+#ax.set_yticks(np.arange(Relative_diff_array[0,0]*0.9, Relative_diff_array[-1,-1]*1.1, 0.1), minor=True)
 
 # Add a legend with unique labels on the left side
 unique_labels = set()

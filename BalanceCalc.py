@@ -8,10 +8,10 @@ import pandas as pd
 
 RELATIVE = True #set calculation mode to relative
 
-df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitDataMelee.csv",sep = ';')  
+df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitDataRanged.csv",sep = ';')  
 
 # Generalized function that computes result based on Save, Ward, and weapon parameters
-def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads, Lastwpn, additionalWeapons, Save, Ward):
+def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads, Range, Lastwpn, additionalWeapons, Save, Ward):
     w = Squads * (Units * Attack + Champions)
     if Crit != "NoCrit":
         x = w * np.abs(Hit - 6) / 6
@@ -22,6 +22,8 @@ def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champi
             z = np.where((Save + Rend) > 6, y, y * (6 - (np.abs(Save + Rend - 6) + 1)) / 6 + Attack / 6)
         elif Crit == "2 Hits":
             x += 2 * Attack / 6
+        elif Crit == "ShockGauntlet":
+            x += 3.5 * Attack / 6
     else:
         x = w * (np.abs(Hit - 6) + 1) / 6
     if Crit != "Auto Wound":
@@ -105,7 +107,7 @@ path = os.path.join(parent_dir, directory)
 ######################################################################################################################################################
 
 # Plot 2: Result as a function of Save for fixed Ward values of 7 (no ward)
-fig, ax = plt.subplots(figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(16, 8))
 
 # Ward is irrelevant for comparing units so it is set to 7 which means no ward save
 ward_value = 7
@@ -121,24 +123,36 @@ rowsRet, colsRet = result_values_array.shape
 
 colors = iter(cm.rainbow(np.linspace(0, 1, rowsRet)))
 
+symbols = {'range3':'x','range10': 'o', 'range15': 's', 'range18': '^' }
+
 for i in range(rowsRet):
     thiscolor = next(colors)
     result_values = result_values_array[i,:]
 
     # Plot Ratling Gun (solid line)
+    if 10<=df.loc[i]['Range']<15:
+        marker = symbols['range10']
+    elif 15<=df.loc[i]['Range']<18:
+        marker = symbols['range15']
+    elif 18<=df.loc[i]['Range']:
+        marker = symbols['range18']
+    else:
+        marker = symbols['range3']
     ax.scatter(save_range, result_values, color=thiscolor, alpha=0.7, 
-                label=f"{df.loc[i]['Name']}{relAddon} (Ward = {ward_value})", marker='o')
+                label=f"{df.loc[i]['Name']}{relAddon}", marker=marker)
     ax.plot(save_range, result_values, color=thiscolor, alpha=0.5, linestyle='-', linewidth=1.5)  # Solid line
     # Annotate Ratling Gun
-    ax.annotate(f'Ward = {ward_value}', 
+    ax.annotate(f"{df.loc[i]['Name']}{relAddon}", 
                 xy=(save_range[-1], result_values[-1]), 
                 xytext=(save_range[-1] + 0.5, result_values[-1]), 
                 arrowprops=dict(arrowstyle='->', color='black', lw=0.5), 
                 fontsize=9, color=thiscolor)
 
-    ax.set_xlabel('Save')
-    ax.set_ylabel(f'Dmg{relAddon}')
-    ax.set_title('Expected Damage vs Save')
+ax.set_xlabel('Save')
+ax.set_ylabel(f'Dmg{relAddon}')
+ax.set_title('Expected Damage vs Save')
+
+ax.set_xlim((0,8))
 
 # Add a legend with unique labels on the left side
 unique_labels = set()
@@ -147,14 +161,14 @@ for line in ax.get_lines():
         unique_labels.add(line.get_label())
 ax.legend(loc='upper left')  # Adjust position to the left side
 
-plt.tight_layout()
+#plt.tight_layout()
 plt.show()
 #plt.savefig(f"{path}/Save_Scatter_{Unit1_name}{relAddon}_vs_{Unit2_name}{relAddon}.png", dpi=300)
 
 #######################################################################################################################################
 
 # Plot 3: Result as a function of Save for fixed Ward values of 7
-fig, ax = plt.subplots(figsize=(12, 8))
+fig, ax = plt.subplots(figsize=(16, 8))
 
 # Define the ranges for Save and Ward
 save_range = np.arange(1, 7)  # Save from 1 to 6
@@ -163,15 +177,33 @@ rowsRet, colsRet = result_values_array.shape
 
 colors = iter(cm.rainbow(np.linspace(0, 1, rowsRet)))
 
+symbols = {'range3':'x','range10': 'o', 'range15': 's', 'range18': '^' }
+
 Relative_diff_array = result_values_array[1:]/result_values_array[0,:]
 
 for i in range(rowsRet-1):
     thiscolor = next(colors)
 
     # Plot Ratling Gun (solid line)
+    if 10<=df.loc[i]['Range']<15:
+        marker = symbols['range10']
+    elif 15<=df.loc[i]['Range']<18:
+        marker = symbols['range15']
+    elif 18<=df.loc[i]['Range']:
+        marker = symbols['range18']
+    else:
+        marker = symbols['range3']
+
+    # Plot Ratling Gun (solid line)
     ax.scatter(save_range, Relative_diff_array[i,:], color=thiscolor, alpha=0.7, 
-                label=f"{df.loc[i+1]['Name']} efficiency relative to {df.loc[0]['Name']}", marker='o')
+                label=f"{df.loc[i+1]['Name']} efficiency relative to {df.loc[0]['Name']}", marker=marker)
     ax.plot(save_range, Relative_diff_array[i,:], color=thiscolor, alpha=0.5, linestyle='-', linewidth=1.5)  # Solid line
+
+    ax.annotate(f"{df.loc[i]['Name']}{relAddon}", 
+                xy=(save_range[-1], Relative_diff_array[i,-1]), 
+                xytext=(save_range[-1] + 0.5, Relative_diff_array[i,-1]), 
+                arrowprops=dict(arrowstyle='->', color='black', lw=0.5), 
+                fontsize=9, color=thiscolor)
 
     equal_line = np.zeros(6)+1
 
@@ -185,6 +217,9 @@ ax.annotate(f"{df.loc[0]['Name']} Equal efficiency Line",
 ax.set_xlabel('Save')
 ax.set_ylabel('Relative Factor of efficiency')
 ax.set_title('Efficiency Factor vs Save')
+
+ax.set_xlim((0,8))
+
 #ax.set_yticks(np.arange(Relative_diff_array[0,0]*0.9, Relative_diff_array[-1,-1]*1.1, 0.1), minor=True)
 
 # Add a legend with unique labels on the left side
@@ -194,6 +229,6 @@ for line in ax.get_lines():
         unique_labels.add(line.get_label())
 ax.legend(loc='upper left')  # Adjust position to the left side
 
-plt.tight_layout()
+#plt.tight_layout()
 plt.show()
 #plt.savefig(f"{path}/Efficiency_Scatter_{Unit1_name}_vs_{Unit2_name}.png", dpi=300)

@@ -1,19 +1,63 @@
 Name;Units;Attack;Hit;Wound;Rend;Damage;Crit;Champions;Ability;Points;Squads;Range;Lastwpn;additionalWeapons
+WarplockJezzailsWarpcogAlloutAtk;3;2;4;3;2;2;Auto Wound;1;Warpcog-AlloutAttack;150;1;18;TRUE;NoWpn
+WarplockJezzailsWarpcog;3;2;4;3;2;2;Auto Wound;1;Warpcog;150;1;18;TRUE;NoWpn
+WarplockJezzailsAlloutAtk;3;2;4;3;2;2;Auto Wound;1;AlloutAttack;150;1;18;TRUE;NoWpn
 WarplockJezzails;3;2;4;3;2;2;Auto Wound;1;NoAbility;150;1;18;TRUE;NoWpn
+RatlingGunWarpcogAlloutAtk;3;10.5;4;4;1;1;2 Hits;0;Warpcog-AlloutAttack;150;1;15;TRUE;NoWpn
+RatlingGunWarpcog;3;10.5;4;4;1;1;2 Hits;0;Warpcog;150;1;15;TRUE;NoWpn
+RatlingGunAlloutAtk;3;10.5;4;4;1;1;2 Hits;0;AlloutAttack;150;1;15;TRUE;NoWpn
 RatlingGun;3;10.5;4;4;1;1;2 Hits;0;NoAbility;150;1;15;TRUE;NoWpn
+WarpfireThrowerWarpcogAlloutAtk;3;7;2;4;2;1;NoCrit;0;Warpcog-AlloutAttack;140;1;10;TRUE;NoWpn
+WarpfireThrowerWarpcog;3;7;2;4;2;1;NoCrit;0;Warpcog;140;1;10;TRUE;NoWpn
+WarpfireThrowerAlloutAtk;3;7;2;4;2;1;NoCrit;0;AlloutAttack;140;1;10;TRUE;NoWpn
 WarpfireThrower;3;7;2;4;2;1;NoCrit;0;NoAbility;140;1;10;TRUE;NoWpn
+WarpvoltScourgersWarpcogAllouAtk;3;7;2;4;1;1;2 Hits;0;Warpcog-AlloutAttack;190;1;15;TRUE;NoWpn
+WarpvoltScourgersWarpcog;3;7;2;4;1;1;2 Hits;0;Warpcog;190;1;15;TRUE;NoWpn
+WarpvoltScourgersAlloutAtk;3;7;2;4;1;1;2 Hits;0;AlloutAttack;190;1;15;TRUE;NoWpn
 WarpvoltScourgers;3;7;2;4;1;1;2 Hits;0;NoAbility;190;1;15;TRUE;NoWpn
+WarpvoltScourgersWarpcogAlloutAtkVSCavalry;3;7;2;4;2;1;2 Hits;0;Warpcog-AlloutAttack;190;1;15;TRUE;NoWpn
+WarpvoltScourgersWarpcogVSCavalry;3;7;2;4;2;1;2 Hits;0;Warpcog;190;1;15;TRUE;NoWpn
+WarpvoltScourgersAlloutAtkVSCavalry;3;7;2;4;2;1;2 Hits;0;AlloutAttack;190;1;15;TRUE;NoWpn
 WarpvoltScourgersVSCavalry;3;7;2;4;2;1;2 Hits;0;NoAbility;190;1;15;TRUE;NoWpn
+Stormfiends(ProjectorsRatling)AlloutAtk;1;7;2;4;2;1;NoCrit;0;AlloutAttack;260;1;10;FALSE;[Stormfiends(ProjectorsRatling),1,10.5,4,3,1,1,NoCrit,0,NoAbility,260,1,10,TRUE,NoWpn]
 Stormfiends(ProjectorsRatling);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;10;FALSE;[Stormfiends(ProjectorsRatling),1,10.5,4,3,1,1,NoCrit,0,NoAbility,260,1,10,TRUE,NoWpn]
+Stormfiends(WindlaunchersRatling)AlloutAtk;1;3;4;3;2;2;NoCrit;0;AlloutAttack;260;1;15;FALSE;[Stormfiends(WindlaunchersRatling),1,10.5,4,3,1,1,NoCrit,0,NoAbility,260,1,15,TRUE,NoWpn]
 Stormfiends(WindlaunchersRatling);1;3;4;3;2;2;NoCrit;0;NoAbility;260;1;15;FALSE;[Stormfiends(WindlaunchersRatling),1,10.5,4,3,1,1,NoCrit,0,NoAbility,260,1,15,TRUE,NoWpn]
+Stormfiends(Ratling)AlloutAtk;1;7;2;4;2;1;NoCrit;0;AlloutAttack;260;1;15;TRUE;NoWpn
 Stormfiends(Ratling);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;15;TRUE;NoWpn
 PlagueClaw;1;2;3;2;1;3.5;NoCrit;0;NoAbility;140;1;24;TRUE;NoWpn
+PlagueClawAlloutAtk;1;2;3;2;1;3.5;NoCrit;0;AlloutAttack;140;1;24;TRUE;NoWpn
+RatlingWarpblasterWarpcogAlloutAtk;1;13.5;4;3;1;1;Auto Wound;0;Warpcog-AlloutAttack;180;1;20;TRUE;NoWpn
+RatlingWarpblasterWarpcog;1;13.5;4;3;1;1;Auto Wound;0;Warpcog;180;1;20;TRUE;NoWpn
+RatlingWarpblasterAlloutAtk;1;13.5;4;3;1;1;Auto Wound;0;AlloutAttack;180;1;20;TRUE;NoWpn
 RatlingWarpblaster;1;13.5;4;3;1;1;Auto Wound;0;NoAbility;180;1;20;TRUE;NoWpn
+RatlingWarpblasterWarpcogAlloutAtk(MoreMore);1;24;4;3;1;1;Auto Wound;0;Warpcog-AlloutAttack;180;1;20;TRUE;NoWpn
 RatlingWarpblaster(MoreMore);1;24;4;3;1;1;Auto Wound;0;NoAbility;180;1;20;TRUE;NoWpn
+RatlingWarpblasterWarpcogAlloutAtk(MoreMore)Vs10Models;1;24;3;3;1;1;Auto Wound;0;Warpcog-AlloutAttack;180;1;20;TRUE;NoWpn
+RatlingWarpblasterWarpcog(MoreMore)Vs10Models;1;24;3;3;1;1;Auto Wound;0;Warpcog;180;1;20;TRUE;NoWpn
+RatlingWarpblasterAlloutAtk(MoreMore)Vs10Models;1;24;3;3;1;1;Auto Wound;0;AlloutAttack;180;1;20;TRUE;NoWpn
 RatlingWarpblaster(MoreMore)Vs10Models;1;24;3;3;1;1;Auto Wound;0;NoAbility;180;1;20;TRUE;NoWpn
+RatlingWarpblasterWarpcogAlloutAtkVs10Models;1;13.5;3;3;1;1;Auto Wound;0;Warpcog-AlloutAttack;180;1;20;TRUE;NoWpn
+RatlingWarpblasterWarpcogVs10Models;1;13.5;3;3;1;1;Auto Wound;0;Warpcog;180;1;20;TRUE;NoWpn
+RatlingWarpblasterAlloutAtkVs10Models;1;13.5;3;3;1;1;Auto Wound;0;AlloutAttack;180;1;20;TRUE;NoWpn
 RatlingWarpblasterVs10Models;1;13.5;3;3;1;1;Auto Wound;0;NoAbility;180;1;20;TRUE;NoWpn
+WarpLightningCannonWarpcog;1;7;4;1;6;1;NoCrit;0;Warpcog;160;1;20;TRUE;NoWpn
+WarpLightningCannonWarpcog;1;7;4;1;6;1;NoCrit;0;Warpcog;160;1;20;TRUE;NoWpn
 WarpLightningCannon;1;7;4;1;6;1;NoCrit;0;NoAbility;160;1;20;TRUE;NoWpn
+WarpLightningCannon;1;7;4;1;6;1;NoCrit;0;NoAbility;160;1;20;TRUE;NoWpn
+WarpLightningCannonWarpcogAlloutAtk(MoreMore);1;13;4;1;6;1;NoCrit;0;Warpcog-AlloutAttack;160;1;20;TRUE;NoWpn
+WarpLightningCannonWarpcog(MoreMore);1;13;4;1;6;1;NoCrit;0;Warpcog;160;1;20;TRUE;NoWpn
+WarpLightningCannonAlloutAtk(MoreMore);1;13;4;1;6;1;NoCrit;0;AlloutAttack;160;1;20;TRUE;NoWpn
 WarpLightningCannon(MoreMore);1;13;4;1;6;1;NoCrit;0;NoAbility;160;1;20;TRUE;NoWpn
+AcolyteGlobadiersWarpcogAlloutAtk;5;1;3;3;1;2;NoCrit;1;Warpcog-AlloutAttack;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersWarpcog;5;1;3;3;1;2;NoCrit;1;Warpcog;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersAlloutAtk;5;1;3;3;1;2;NoCrit;1;AlloutAttack;130;1;10;TRUE;NoWpn
 AcolyteGlobadiers;5;1;3;3;1;2;NoCrit;1;NoAbility;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersWarpcogAlloutAtkVs10Units;5;1;3;3;1;3;NoCrit;1;Warpcog-AlloutAttack;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersWarpcogVs10Units;5;1;3;3;1;3;NoCrit;1;Warpcog;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersAlloutAtkVs10Units;5;1;3;3;1;3;NoCrit;1;AlloutAttack;130;1;10;TRUE;NoWpn
 AcolyteGlobadiersVs10Units;5;1;3;3;1;3;NoCrit;1;NoAbility;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersAlloutAtkWarpcogVs10UnitsInfantry;5;1;3;3;2;2;NoCrit;1;Warpcog-AlloutAttack;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersWarpcogVs10UnitsInfantry;5;1;3;3;2;2;NoCrit;1;Warpcog;130;1;10;TRUE;NoWpn
+AcolyteGlobadiersAlloutAtkVs10UnitsInfantry;5;1;3;3;2;2;NoCrit;1;AlloutAttack;130;1;10;TRUE;NoWpn
 AcolyteGlobadiersVs10UnitsInfantry;5;1;3;3;2;2;NoCrit;1;NoAbility;130;1;10;TRUE;NoWpn

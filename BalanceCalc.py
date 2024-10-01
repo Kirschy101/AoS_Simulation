@@ -8,22 +8,33 @@ import pandas as pd
 
 RELATIVE = True #set calculation mode to relative
 
-df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitDataRanged.csv",sep = ';')  
+df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitDataMelee.csv",sep = ';')  
 
 # Generalized function that computes result based on Save, Ward, and weapon parameters
 def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads, Range, Lastwpn, additionalWeapons, Save, Ward):
+    abilities = list(Ability.split("-"))
+    if 'AlloutAttack' in abilities:
+        Hit = Hit - 1
+    if 'Warpcog' in abilities:
+        Wound = Wound - 4/6
+        Rend = Rend + 1/6
+    if 'Fleshmeld' in abilities: 
+        Attack = Attack + 2/3
     w = Squads * (Units * Attack + Champions)
+
     if Crit != "NoCrit":
         x = w * np.abs(Hit - 6) / 6
         if Crit == "Auto Wound":
-            y = x * (np.abs(Wound - 6) + 1) / 6 + Attack / 6
+            y = (x * (np.abs(Wound - 6) + 1) / 6) + (w / 6)
         elif Crit == "Mortal":
             y = x * (np.abs(Wound - 6) + 1) / 6
-            z = np.where((Save + Rend) > 6, y, y * (6 - (np.abs(Save + Rend - 6) + 1)) / 6 + Attack / 6)
+            z = np.where((Save + Rend) > 6, y, (y * (6 - (np.abs(Save + Rend - 6) + 1)) / 6)) + (w / 6)
         elif Crit == "2 Hits":
-            x += 2 * Attack / 6
-        elif Crit == "ShockGauntlet":
-            x += 3.5 * Attack / 6
+            x += 2 * w / 6
+        elif "ShockGauntlet" in abilities:
+            x += 3.5 * w / 6
+
+    
     else:
         x = w * (np.abs(Hit - 6) + 1) / 6
     if Crit != "Auto Wound":
@@ -34,7 +45,7 @@ def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champi
     a = np.where(Ward == 7, z, z * (6 - (np.abs(Ward - 6) + 1)) / 6)
     b = a * Damage
 
-    if Ability == "DoomFlayer":
+    if "DoomFlayer" in abilities:
         b += 1 # 1/3 * 1 damage + 1/3 * 2 Damage 
 
     if additionalWeapons != "NoWpn":
@@ -199,7 +210,7 @@ for i in range(rowsRet-1):
                 label=f"{df.loc[i+1]['Name']} efficiency relative to {df.loc[0]['Name']}", marker=marker)
     ax.plot(save_range, Relative_diff_array[i,:], color=thiscolor, alpha=0.5, linestyle='-', linewidth=1.5)  # Solid line
 
-    ax.annotate(f"{df.loc[i]['Name']}{relAddon}", 
+    ax.annotate(f"{df.loc[i+1]['Name']}{relAddon}", 
                 xy=(save_range[-1], Relative_diff_array[i,-1]), 
                 xytext=(save_range[-1] + 0.5, Relative_diff_array[i,-1]), 
                 arrowprops=dict(arrowstyle='->', color='black', lw=0.5), 

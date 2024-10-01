@@ -1,0 +1,13 @@
+Name;Units;Attack;Hit;Wound;Rend;Damage;Crit;Champions;Ability;Points;Squads;Range;Lastwpn;additionalWeapons
+Clanrats;20;2;4;5;0;1;Auto Wound;1;NoAbility;150;1;3;TRUE;NoWpn
+ClanratsAlloutAtkChargedClawHordeFilfthCrust4;20;2;4;4;1;1;Auto Wound;1;AlloutAttack;150;1;3;TRUE;NoWpn
+ClanratsAlloutAtkChargedClawHordeFilfthCrust8;20;2;4;4;1;1;Mortal;1;AlloutAttack;150;1;3;TRUE;NoWpn
+ClanratsAlloutAtkChargedClawHordeFilfth;20;2;4;5;1;1;Auto Wound;1;AlloutAttack;150;1;3;TRUE;NoWpn
+ClanratsAlloutAtkFilfthCrust4;20;2;4;4;0;1;Auto Wound;1;AlloutAttack;150;1;3;TRUE;NoWpn
+ClanratsAlloutAtkFilfthCrust8;20;2;4;4;0;1;Mortal;1;AlloutAttack;150;1;3;TRUE;NoWpn
+ClanratsAlloutAtk;20;2;4;5;0;1;Auto Wound;1;AlloutAttack;150;1;3;TRUE;NoWpn
+ClanratsChargedClawHordeFilfthCrust4;20;2;4;4;1;1;Auto Wound;1;NoAbility;150;1;3;TRUE;NoWpn
+ClanratsChargedClawHordeFilfthCrust8;20;2;4;4;1;1;Mortal;1;NoAbility;150;1;3;TRUE;NoWpn
+ClanratsChargedClawHorde;20;2;4;5;1;1;Auto Wound;1;NoAbility;150;1;3;TRUE;NoWpn
+ClanratsFilfthCrust4;20;2;4;4;0;1;Auto Wound;1;NoAbility;150;1;3;TRUE;NoWpn
+ClanratsFilfthCrust8;20;2;4;4;0;1;Mortal;1;NoAbility;150;1;3;TRUE;NoWpn

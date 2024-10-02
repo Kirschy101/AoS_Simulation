@@ -3,15 +3,12 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import cm
 import os
 import pandas as pd
+import itertools
 
-######################################################################################################################################################
-
-RELATIVE = True #set calculation mode to relative
-
-df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitDataMelee.csv",sep = ';')  
+###################################################################################################################################################### 
 
 # Generalized function that computes result based on Save, Ward, and weapon parameters
-def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads, Range, Lastwpn, additionalWeapons, Save, Ward):
+def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads,Buffs, Range, Lastwpn, additionalWeapons, Save, Ward):
     abilities = list(Ability.split("-"))
     if 'AlloutAttack' in abilities:
         Hit = Hit - 1
@@ -84,20 +81,68 @@ def calc_with_config_single(arglist, Save, Ward):
     return firstrow
 
 
-# Weapon configurations: (Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, relative, Points, Squads, Lastwpn, additionalWeapons)
-# Unit1_config = (Unit1_name,Unit1_Units, Unit1_Attacks, Unit1_Hit, Unit1_Wound, Unit1_Rend,
-#                 Unit1_Damage, Unit1_Crit, Unit1_Champions, Unit1_Ability, RELATIVE,
-#                 Unit1_Points, Unit1_Squads, Unit1_Lastwpn, Unit1_additionalWeapons)   
-# Unit2_config = (Unit2_name,Unit2_Units, Unit2_Attacks, Unit2_Hit, Unit2_Wound, Unit2_Rend, Unit2_Damage,
-#                 Unit2_Crit, Unit2_Champions, Unit2_Ability, RELATIVE, Unit2_Points, Unit2_Squads,
-#                 Unit2_Lastwpn, Unit2_additionalWeapons)   
+#implement the automated application of several buffs to all units
 
+def addBuffRows(df):
+    for index, row in df.iterrows():
+        buffs = list(df.loc[index,'Buffs'].split('-'))
+        if '' in buffs:
+            buffs = buffs.remove('')
+        if buffs:
+            for buff in buffs:
+                for L in range(len(buffs) + 1):
+                    for subset in itertools.combinations(buffs, L):
+                        if subset==False:
+                            subset = ''
+                        new_row = df.loc[index,:].copy()
+                        new_row.loc['Buffs']=subset
+                        buff_string = str(subset)
+                        buff_string = buff_string.replace(',','')
+                        buff_string = buff_string.replace('(','')
+                        buff_string = buff_string.replace(')','')
+                        buff_string = buff_string.replace(' ','')
+                        buff_string = buff_string.replace("'","")
+
+                        new_row.loc['Name'] += buff_string
+                        df = df._append([new_row], ignore_index=True)
+    
+    for i in range(index+1):
+        df = df.drop(index=i)
+    df.index = df.index-(index+1)  # shifting index
+              
+    print(df)
+    return df
+
+
+def applybuff_row(df, row_index, buffname):
+    if buffname=='AlloutAttack':
+        df.loc[row_index,'Hit'] -= 1
+
+    return df
+
+
+def applybuffs(df):
+    for index, row in df.iterrows():
+        if df.loc[index,'Buffs']:
+            for buff in df.loc[index,'Buffs']:
+                df = applybuff_row(df, index, buff)
+    
+    return df
+    
+
+RELATIVE = True #set calculation mode to relative
+
+df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitsMeleeNoBuffs.csv",sep = ';') 
 
 if RELATIVE:
     relAddon = "Per100"
 else:
     relAddon = ""
 
+df = addBuffRows(df)
+df = applybuffs(df)
+
+df.to_csv('out.csv', index=False)
 
 # Directory 
 #directory = f"{Unit1_name}{relAddon}_Vs_{Unit2_name}{relAddon}"

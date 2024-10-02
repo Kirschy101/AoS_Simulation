@@ -1,0 +1,11 @@
+Name;Units;Attack;Hit;Wound;Rend;Damage;Crit;Champions;Ability;Points;Squads;Buffs;Range;Lastwpn;additionalWeapons
+Clanrats;20;2;4;5;0;1;Auto Wound;1;NoAbility;150;1;AlloutAttack;3;TRUE;NoWpn
+Stormvermin;10;3;3;4;1;1;NoCrit;1;NoAbility;140;1;AlloutAttack;3;TRUE;NoWpn
+RatOgors;3;5;4;3;1;2;NoCrit;0;NoAbility;160;1;AlloutAttack;3;FALSE;[RatOgors,1,7,2,4,2,1,NoCrit,0,NoAbility,160,1,AlloutAttack,3,TRUE,NoWpn]
+WarpGrinder;1;2;4;2;3;5;NoCrit;0;NoAbility;170;1;AlloutAttack;3;FALSE;[WarpGrinder,1,3.5,4,5,0,1,NoCrit,0,NoAbility,170,1,AlloutAttack,3,TRUE,NoWpn]
+DoomFlayer;2;7;3;3;1;1;NoCrit;0;NoAbility;130;1;AlloutAttack;3;TRUE;NoWpn
+ClawlordOnGnawbeast;1;3.5;3;3;1;1;Auto Wound;0;NoAbility;160;1;AlloutAttack;3;FALSE;"[ClawlordOnGnawbeast,1,4,4,3,1,2,NoCrit,0,NoAbility,160,1,AlloutAttack,3,FALSE,NoWpn];[ClawlordOnGnawbeast,1,5,3,4,1,2,NoCrit,0,,160,1,3,TRUE,AlloutAttack,NoWpn]"
+BroodTerror;1;5;4;2;2;3;Mortal;0;NoAbility;300;1;AlloutAttack;3;FALSE;[BroodTerror,1,3,4,4,1,2,NoCrit,0,NoAbility,300,1,AlloutAttack,3,TRUE,NoWpn]
+Stormfiends(ProjectorsGrindersDoomflayers);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;AlloutAttack;3;FALSE;"[Stormfiends(ProjectorsGrindersDoomflayers),1,3,4,2,0,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,FALSE,NoWpn];[Stormfiends(ProjectorsGrindersDoomflayers),1,4,4,2,2,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,FALSE,NoWpn];[Stormfiends(ProjectorsGrindersDoomflayers),1,5,4,2,2,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,TRUE,NoWpn]"
+Stormfiends(ProjectorsRatlingDoomflayers);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;AlloutAttack;3;FALSE;"[Stormfiends(ProjectorsRatlingDoomflayers),2,4,4,2,2,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,FALSE,NoWpn];[Stormfiends(ProjectorsRatlingDoomflayers),1,5,4,2,2,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,TRUE,NoWpn]"
+Stormfiends(ProjectorsGrindersShockGauntlet);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;AlloutAttack;3;FALSE;"[Stormfiends(ProjectorsGrindersShockGauntlet),1,3,4,2,0,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,FALSE,NoWpn];[Stormfiends(ProjectorsGrindersShockGauntlet),1,4,4,2,2,2,NoCrit,0,NoAbility,260,1,AlloutAttack,3,FALSE,NoWpn];[Stormfiends(ProjectorsGrindersShockGauntlet),1,4,4,2,1,2,NoCrit,0,ShockGauntlet,260,1,AlloutAttack,3,TRUE,NoWp]n]"

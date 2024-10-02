@@ -4,8 +4,11 @@ from matplotlib.pyplot import cm
 import os
 import pandas as pd
 import itertools
+import re
 
 ###################################################################################################################################################### 
+
+RELATIVE = True #set calculation mode to relative
 
 # Generalized function that computes result based on Save, Ward, and weapon parameters
 def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads,Buffs, Range, Lastwpn, additionalWeapons, Save, Ward):
@@ -117,7 +120,14 @@ def addBuffRows(df):
 def applybuff_row(df, row_index, buffname):
     if buffname=='AlloutAttack':
         df.loc[row_index,'Hit'] -= 1
-
+        if df.loc[row_index,'additionalWeapons']!='NoWpn':
+            string = df.loc[row_index,'additionalWeapons']
+            pattern = r'(?<=Hit=)[^,]+'
+            updated_string = re.sub(pattern, update_hit_value, string)
+            updated_string = updated_string.replace('Hit=','')
+            df.loc[row_index,'additionalWeapons']=updated_string
+        
+                
     return df
 
 
@@ -128,9 +138,20 @@ def applybuffs(df):
                 df = applybuff_row(df, index, buff)
     
     return df
-    
 
-RELATIVE = True #set calculation mode to relative
+def update_hit_value(match):
+    # Convert the matched value to float and add 1
+    original_value = float(match.group())
+    updated_value = original_value - 1
+    # Return the updated value as a string
+    return str(updated_value)
+
+def removeBuffMarkers(df):
+    for index, row in df.iterrows():
+        if df.loc[index,'additionalWeapons']!='NoWpn':
+            df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Hit=","")
+
+    return df
 
 df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitsMeleeNoBuffs.csv",sep = ';') 
 
@@ -141,6 +162,7 @@ else:
 
 df = addBuffRows(df)
 df = applybuffs(df)
+df = removeBuffMarkers(df)
 
 df.to_csv('out.csv', index=False)
 
@@ -174,6 +196,9 @@ save_range = np.arange(1, 7)  # Save from 1 to 6
 # Calculate results for both functions
 result_values_array = calc_with_config(df,save_range, ward_value )
 #result_values_Unit2 = calc_with_config(Unit2_config,save_range, ward_value)
+
+result_df = pd.DataFrame(result_values_array, index=df.loc[:,'Name'],columns=['Save 1','Save 2','Save 3','Save 4','Save 5','Save 6'])
+result_df.to_csv('Result.csv', index_label='Name')
 
 rowsRet, colsRet = result_values_array.shape
 

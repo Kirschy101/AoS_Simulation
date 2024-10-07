@@ -1,0 +1,12 @@
+Name;Units;Attack;Hit;Wound;Rend;Damage;Crit;Champions;Ability;Points;Squads;Buffs;Range;Lastwpn;additionalWeapons
+WarplockJezzails;3;2;4;3;2;2;Auto Wound;1;NoAbility;150;1;AlloutAttack-WarpCog-FilfthCrust4;18;TRUE;NoWpn
+RatlingGun;3;10.5;4;4;1;1;2 Hits;0;NoAbility;150;1;AlloutAttack-WarpCog-FilfthCrust4;15;TRUE;NoWpn
+WarpfireThrower;3;7;2;4;2;1;NoCrit;0;NoAbility;140;1;AlloutAttack-WarpCog-FilfthCrust4;10;TRUE;NoWpn
+WarpvoltScourgers;3;7;2;4;1;1;2 Hits;0;NoAbility;190;1;AlloutAttack-WarpCog-FilfthCrust4;15;TRUE;NoWpn
+Stormfiends(ProjectorsRatling);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;AlloutAttack-FilfthCrust4;10;FALSE;[Stormfiends(ProjectorsRatling),1,10.5,Hit=4,3,Rend=1,1,Crit=NoCrit,0,NoAbility,260,1,AlloutAttack-FilfthCrust4,10,TRUE,NoWpn]
+Stormfiends(WindlaunchersRatling);1;3;4;3;2;2;NoCrit;0;NoAbility;260;1;AlloutAttack-FilfthCrust4;15;FALSE;[Stormfiends(WindlaunchersRatling),1,10.5,Hit=4,3,Rend=1,1,Crit=NoCrit,0,NoAbility,260,1,AlloutAttack-FilfthCrust4,15,TRUE,NoWpn]
+Stormfiends(Ratling);1;7;2;4;2;1;NoCrit;0;NoAbility;260;1;AlloutAttack-FilfthCrust4;15;TRUE;NoWpn
+PlagueClaw;1;2;3;2;1;3.5;NoCrit;0;NoAbility;140;1;AlloutAttack;24;TRUE;NoWpn
+RatlingWarpblaster;1;13.5;4;3;1;1;Auto Wound;0;NoAbility;180;1;AlloutAttack-WarpCog;20;TRUE;NoWpn
+WarpLightningCannon;1;7;4;1;6;1;NoCrit;0;NoAbility;160;1;AlloutAttack-WarpCog;20;TRUE;NoWpn
+AcolyteGlobadiers;5;1;3;3;1;2;NoCrit;1;NoAbility;130;1;AlloutAttack-WarpCog-FilfthCrust4;10;TRUE;NoWpn

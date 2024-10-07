@@ -5,19 +5,17 @@ import os
 import pandas as pd
 import itertools
 import re
+import functools
 
 ###################################################################################################################################################### 
 
 RELATIVE = True #set calculation mode to relative
 
+inputPath = "/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitsRangedNoBuffs.csv"
+
 # Generalized function that computes result based on Save, Ward, and weapon parameters
 def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champions, Ability, Points, Squads,Buffs, Range, Lastwpn, additionalWeapons, Save, Ward):
     abilities = list(Ability.split("-"))
-    if 'AlloutAttack' in abilities:
-        Hit = Hit - 1
-    if 'Warpcog' in abilities:
-        Wound = Wound - 4/6
-        Rend = Rend + 1/6
     if 'Fleshmeld' in abilities: 
         Attack = Attack + 2/3
     w = Squads * (Units * Attack + Champions)
@@ -123,12 +121,78 @@ def applybuff_row(df, row_index, buffname):
         if df.loc[row_index,'additionalWeapons']!='NoWpn':
             string = df.loc[row_index,'additionalWeapons']
             pattern = r'(?<=Hit=)[^,]+'
-            updated_string = re.sub(pattern, update_hit_value, string)
-            updated_string = updated_string.replace('Hit=','')
+            partial_update_value = functools.partial(update_value_new, method='sub', value=1)
+            updated_string = re.sub(pattern, partial_update_value, string)
+            df.loc[row_index,'additionalWeapons']=updated_string
+    
+    if buffname == 'WarpCog':
+        if 'FilthCrust8' not in df.loc[row_index,'Buffs'] and 'FilthCrust4' not in df.loc[row_index,'Buffs']:
+            df.loc[row_index,'Wound'] -= (4/6)
+            df.loc[row_index,'Rend'] += (1/6)
+            if df.loc[row_index,'additionalWeapons']!='NoWpn':
+                string = df.loc[row_index,'additionalWeapons']
+                pattern = r'(?<=Wound=)[^,]+'
+                partial_update_value = functools.partial(update_value_new, method='sub', value=4/6)
+                updated_string = re.sub(pattern, partial_update_value, string)
+                df.loc[row_index,'additionalWeapons']=updated_string
+
+                pattern = r'(?<=Rend=)[^,]+'
+                partial_update_value = functools.partial(update_value_new, method='add', value=1/6)
+                updated_string = re.sub(pattern, partial_update_value, string)
+                df.loc[row_index,'additionalWeapons']=updated_string
+
+    if buffname == 'FilthCrust4':
+        if 'WarpCog' not in df.loc[row_index,'Buffs'] and 'FilthCrust8' not in df.loc[row_index,'Buffs']:
+            df.loc[row_index,'Wound'] -= 1
+            if df.loc[row_index,'additionalWeapons']!='NoWpn':
+                string = df.loc[row_index,'additionalWeapons']
+                pattern = r'(?<=Wound=)[^,]+'
+                partial_update_value = functools.partial(update_value_new, method='sub', value=1)
+                updated_string = re.sub(pattern, partial_update_value, string)
+                df.loc[row_index,'additionalWeapons']=updated_string
+
+        elif 'FilthCrust8' not in df.loc[row_index,'Buffs']: #if buffs warpcog and FilfthCrust4 are aplied
+            df.loc[row_index,'Wound'] -= 1
+            df.loc[row_index,'Rend'] += (1/6)
+            if df.loc[row_index,'additionalWeapons']!='NoWpn':
+                string = df.loc[row_index,'additionalWeapons']
+                pattern = r'(?<=Wound=)[^,]+'
+                partial_update_value = functools.partial(update_value_new, method='sub', value=1)
+                updated_string = re.sub(pattern, partial_update_value, string)
+                df.loc[row_index,'additionalWeapons']=updated_string
+
+                pattern = r'(?<=Rend=)[^,]+'
+                partial_update_value = functools.partial(update_value_new, method='add', value=1/6)
+                updated_string = re.sub(pattern, partial_update_value, string)
+                df.loc[row_index,'additionalWeapons']=updated_string
+
+    if buffname == 'FilthCrust8':
+        df.loc[row_index,'Wound'] -= 1
+        df.loc[row_index,'Crit'] = 'Mortal'
+        if df.loc[row_index,'additionalWeapons']!='NoWpn':
+            string = df.loc[row_index,'additionalWeapons']
+            pattern = r'(?<=Wound=)[^,]+'
+            partial_update_value = functools.partial(update_value_new, method='sub', value=1)
+            updated_string = re.sub(pattern, partial_update_value, string)
+            df.loc[row_index,'additionalWeapons']=updated_string
+            string = df.loc[row_index,'additionalWeapons']
+            pattern = r'(?<=Crit=)[^,]+'
+            partial_update_value = functools.partial(update_value_new, method='set', value='Mortal')
+            updated_string = re.sub(pattern, partial_update_value, string)
             df.loc[row_index,'additionalWeapons']=updated_string
         
-                
+        if 'WarpCog' in df.loc[row_index,'Buffs']: #for filfthCrust8 and warpcog apply rendbuff and wound buff
+            df.loc[row_index,'Rend'] += (1/6)
+            if df.loc[row_index,'additionalWeapons']!='NoWpn':
+                string = df.loc[row_index,'additionalWeapons']
+                pattern = r'(?<=Rend=)[^,]+'
+                partial_update_value = functools.partial(update_value_new, method='add', value=1/6)
+                updated_string = re.sub(pattern, partial_update_value, string)
+                df.loc[row_index,'additionalWeapons']=updated_string
+
+       
     return df
+    
 
 
 def applybuffs(df):
@@ -139,21 +203,35 @@ def applybuffs(df):
     
     return df
 
-def update_hit_value(match):
-    # Convert the matched value to float and add 1
+ 
+def update_value(match):
+    # Convert the matched value to float and subtract 1
     original_value = float(match.group())
     updated_value = original_value - 1
-    # Return the updated value as a string
     return str(updated_value)
+ 
+def update_value_new(match, method, value):
+    original_value = float(match.group())
+    if method == 'add':
+        updated_value = original_value + value
+    elif method == 'sub':
+        updated_value = original_value - value
+    elif method == 'set':
+        updated_value = value
+    return str(updated_value)
+ 
 
 def removeBuffMarkers(df):
     for index, row in df.iterrows():
         if df.loc[index,'additionalWeapons']!='NoWpn':
             df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Hit=","")
+            df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Rend=","")
+            df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Wound=","")
+            df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Crit=","")
 
     return df
 
-df = pd.read_csv("/Users/michaeldoleschal/p4p/privat/AoS_Simulation/Plots/Efficiency/UnitsMeleeNoBuffs.csv",sep = ';') 
+df = pd.read_csv(inputPath,sep = ';') 
 
 if RELATIVE:
     relAddon = "Per100"

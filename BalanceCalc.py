@@ -18,7 +18,7 @@ def calc_distribution(Name,Units, Attack, Hit, Wound, Rend, Damage, Crit, Champi
     abilities = list(Ability.split("-"))
     if 'Fleshmeld' in abilities: 
         Attack = Attack + 2/3
-    w = Squads * (Units * Attack + Champions)
+    w = Squads * ((Units * Attack) + Champions)
 
     if Crit != "NoCrit":
         x = w * np.abs(Hit - 6) / 6
@@ -190,6 +190,25 @@ def applybuff_row(df, row_index, buffname):
                 updated_string = re.sub(pattern, partial_update_value, string)
                 df.loc[row_index,'additionalWeapons']=updated_string
 
+    if buffname == 'ClawHorde' and 'WarpCog' not in df.loc[row_index,'Buffs']:
+        df.loc[row_index,'Rend'] += 1
+        if df.loc[row_index,'additionalWeapons']!='NoWpn':
+            string = df.loc[row_index,'additionalWeapons']
+            pattern = r'(?<=Rend=)[^,]+'
+            partial_update_value = functools.partial(update_value_new, method='add', value=1)
+            updated_string = re.sub(pattern, partial_update_value, string)
+            df.loc[row_index,'additionalWeapons']=updated_string
+
+    if buffname == 'FleshMeld':
+        df.loc[row_index,'Attack'] += 4/6
+        if df.loc[row_index,'additionalWeapons']!='NoWpn':
+            string = df.loc[row_index,'additionalWeapons']
+            pattern = r'(?<=Attack=)[^,]+'
+            partial_update_value = functools.partial(update_value_new, method='add', value=4/6)
+            updated_string = re.sub(pattern, partial_update_value, string)
+            df.loc[row_index,'additionalWeapons']=updated_string
+
+
        
     return df
     
@@ -211,7 +230,10 @@ def update_value(match):
     return str(updated_value)
  
 def update_value_new(match, method, value):
-    original_value = float(match.group())
+    try:
+        original_value = float(match.group())
+    except:
+        original_value = match.group() #needs fixing to deal with match being a string eg.: NoCrit
     if method == 'add':
         updated_value = original_value + value
     elif method == 'sub':
@@ -224,6 +246,7 @@ def update_value_new(match, method, value):
 def removeBuffMarkers(df):
     for index, row in df.iterrows():
         if df.loc[index,'additionalWeapons']!='NoWpn':
+            df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Attack=","")
             df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Hit=","")
             df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Rend=","")
             df.loc[index,'additionalWeapons'] = df.loc[index,'additionalWeapons'].replace("Wound=","")
